@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8">
+      <h3>COVID-19</h3>
+      <hr>
+      <div>
+        <p>Last Checked: {{ lastCheckedDate }}</p>
+      </div>
+      <hr>
+      <label for="country">Country</label>
+      <div class="form-row">
+        <div class="col-auto">
+          <input type="text" class="form-control" #country>
+        </div>
+        <br>
+        <button class="btn btn-primary col-auto pl-3 pr-3" (click) = "onSubmitCountry(country.value)">Enter</button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row" *ngIf = "showCountry && !error">
+    <div class="col-sm-12">
+      <h3 class="text text-muted">Country</h3>
+      <div class="row">
+        <div class="col-sm-6">
+          <br>
+          <strong class="h4">{{ fetchedProvince }}<span *ngIf = "fetchedProvince">,</span> {{ fetchedCountry }}</strong>
+          <p>Last Updated: {{lastUpdated}}</p>
+        </div>
+        <div class="col-sm-6">
+          <p>Total Cases: {{ confirmed }}</p>
+          <p>Total Deaths: {{ deaths }}</p>
+          <p>Total Recovered: {{ recovered }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf= "error && showCountry">
+    <div class="col-sm-12">
+      <div class="alert alert-danger">
+        <h3>Encountered an Error!</h3>
+        <p>{{ error }}</p>
+      </div>
+    </div>
+  </div>
+</div>
