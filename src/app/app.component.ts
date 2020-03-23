@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Chart } from 'chart.js';
 import { getTestBed } from '@angular/core/testing';
+import { Covid } from './covid.interface';
 
 @Component({
   selector: 'app-root',
@@ -64,7 +65,7 @@ export class AppComponent implements OnInit{
   }
 
   getResponse(url: string){
-    this.http.get(url, {
+    this.http.get<Covid>(url, {
       headers: new HttpHeaders({ 
         'content-type': 'application/json; charset=utf-8',
         'RapidAPIproject': 'default-application_4278873',
