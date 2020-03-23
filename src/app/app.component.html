@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-12">
       <h3>COVID-19</h3>
       <hr>
       <div>
@@ -10,7 +10,7 @@
       <label for="country">Country</label>
       <div class="form-row">
         <div class="col-auto">
-          <input type="text" class="form-control" #country>
+          <input type="text" class="form-control" #country (keydown.enter)="onSubmitCountry(country.value)">
         </div>
         <br>
         <button class="btn btn-primary col-auto pl-3 pr-3" (click) = "onSubmitCountry(country.value)">Enter</button>

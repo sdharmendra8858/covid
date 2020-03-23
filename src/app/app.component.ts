@@ -1,7 +1,5 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Chart } from 'chart.js';
-import { getTestBed } from '@angular/core/testing';
 import { Covid } from './covid.interface';
 
 @Component({
@@ -18,6 +16,8 @@ export class AppComponent implements OnInit{
   error: string;
   title = 'covid';
   url: string;
+
+  //date
   lastChecked: Date;
   lastCheckedDate: string;
   hour: number;
@@ -26,6 +26,8 @@ export class AppComponent implements OnInit{
   date: number;
   month: string;
   year: number;
+
+  //recived data
   confirmed: number;
   deaths: number;
   recovered: number;
@@ -53,12 +55,25 @@ export class AppComponent implements OnInit{
     // console.log(this.lastCheckedDate);
   }
 
+  titleCase(str) {
+    var splitStr = str.toLowerCase().split(' ');
+    for (var i = 0; i < splitStr.length; i++) {
+        // You do not need to check if i is larger than splitStr length, as your for does that for you
+        // Assign it back to the array
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+    }
+    // Directly return the joined string
+    return splitStr.join(' '); 
+ }
+
   onSubmitCountry(country: string){
     this.showCountry = false;
     this.error = '';
-    country = country[0].toUpperCase() +  
-    country.slice(1);
-    this.url = 'https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats?country=' + country;
+    // country = country[0].toUpperCase() +  
+    // country.slice(1);
+    country = this.titleCase(country);
+    // this.url = 'https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats?country=' + country;
+    this.url = 'https://'+ process.env.RAPID_API_HOST +'/v1/stats?country=' + country;
     console.log(country);
     this.getResponse(this.url);
     this.showCountry = true;
@@ -68,9 +83,12 @@ export class AppComponent implements OnInit{
     this.http.get<Covid>(url, {
       headers: new HttpHeaders({ 
         'content-type': 'application/json; charset=utf-8',
-        'RapidAPIproject': 'default-application_4278873',
-        'X-RapidAPI-Host': 'covid-19-coronavirus-statistics.p.rapidapi.com',
-        'X-RapidAPI-Key' : '20ff524c52msh9b813b8d445a645p14a5bcjsnc51e6a48d647'
+        'RapidAPIproject': process.env.API_PROJECT,
+        'X-RapidAPI-Host': process.env.RAPID_API_HOST,
+        'X-RapidAPI-Key': process.env.RAPID_API_KEY
+        // 'RapidAPIproject': 'default-application_4278873',
+        // 'X-RapidAPI-Host': 'covid-19-coronavirus-statistics.p.rapidapi.com'
+        // 'X-RapidAPI-Key' : '20ff524c52msh9b813b8d445a645p14a5bcjsnc51e6a48d647'
      })
     }).subscribe( posts => {
       console.log(posts);
