@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --aot --prod"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +22,7 @@
     "@angular/router": "~9.0.2",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
+    "express": "^4.17.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -49,5 +51,9 @@
   "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.3.",
   "main": "karma.conf.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "~12.4.0",
+    "npm": "~6.9.0"
+  }
 }
