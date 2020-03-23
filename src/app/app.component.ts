@@ -28,6 +28,7 @@ export class AppComponent implements OnInit{
   confirmed: number;
   deaths: number;
   recovered: number;
+
   constructor(private http: HttpClient){}
 
   ngOnInit(){
