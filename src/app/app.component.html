@@ -26,6 +26,7 @@
           <br>
           <strong class="h4">{{ fetchedProvince }}<span *ngIf = "fetchedProvince">,</span> {{ fetchedCountry }} <img src="https://www.countryflags.io/{{ codeForFlag }}/shiny/64.png"></strong>
           <p>Last Updated: {{lastUpdated}}</p>
+          <app-map></app-map>
         </div>
         <div class="col-sm-6">
           <h5>Cases</h5>
