@@ -4,7 +4,7 @@
       <h3>COVID-19</h3>
       <hr>
       <div>
-        <p>Last Checked: {{ lastCheckedDate }}</p>
+        <p>Last Update: {{ lastUpdated }}</p>
       </div>
       <hr>
       <label for="country">Country</label>
@@ -28,9 +28,15 @@
           <p>Last Updated: {{lastUpdated}}</p>
         </div>
         <div class="col-sm-6">
-          <p>Total Cases: {{ confirmed }}</p>
-          <p>Total Deaths: {{ deaths }}</p>
-          <p>Total Recovered: {{ recovered }}</p>
+          <h5>Cases</h5>
+          <p>New Cases: {{ newCases }}</p>
+          <p>Active: {{ active }}</p>
+          <p>Critical: {{ critical }}</p>
+          <p>Recovered: {{ recovered }}</p>
+          <p>Total: {{ total }}</p>
+          <h5>Deaths</h5>
+          <p>New Deaths: {{ newDeaths }}</p>
+          <p>Total Deaths: {{ totalDeaths }}</p>
         </div>
       </div>
     </div>

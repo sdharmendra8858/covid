@@ -1,17 +1,26 @@
 export interface Covid {
-    error: boolean,
-    statusCode: number,
-    message: string,
-    data: {
-        lastChecked: 'string',
-        covid19Stats: [{
-            province: string,
+    get: string,
+    parameters: {
+        country: string
+    },
+    errors: [],
+    results: number,
+    response: [
+        {
             country: string,
-            lastUpdate: string,
-            confirmed: number,
-            deaths: number,
-            recovered: number
-        }],
-        lentgh: number
-    }
+            cases: {
+                new: string,
+                active: number,
+                critical: number,
+                recovered: number,
+                total: number
+            },
+            deaths: {
+                new: string,
+                total: number
+            },
+            day: string,
+            time: string
+        }
+    ]
 }

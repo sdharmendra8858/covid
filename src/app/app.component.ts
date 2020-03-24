@@ -18,8 +18,6 @@ export class AppComponent implements OnInit{
   url: string;
 
   //date
-  lastChecked: Date;
-  lastCheckedDate: string;
   hour: number;
   minute: number;
   second: number;
@@ -28,9 +26,15 @@ export class AppComponent implements OnInit{
   year: number;
 
   //recived data
-  confirmed: number;
+  newCases: string;
+  active: number;
+  critical: number;
   deaths: number;
   recovered: number;
+  total: number;
+
+  newDeaths: string;
+  totalDeaths: number;
 
   constructor(private http: HttpClient){}
 
@@ -55,7 +59,7 @@ export class AppComponent implements OnInit{
     // console.log(this.lastCheckedDate);
   }
 
-  titleCase(str) {
+  UpperTransform(str) {
     var splitStr = str.toLowerCase().split(' ');
     for (var i = 0; i < splitStr.length; i++) {
         // You do not need to check if i is larger than splitStr length, as your for does that for you
@@ -71,9 +75,8 @@ export class AppComponent implements OnInit{
     this.error = '';
     // country = country[0].toUpperCase() +  
     // country.slice(1);
-    country = this.titleCase(country);
-    // this.url = 'https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats?country=' + country;
-    this.url = 'https://'+ process.env.RAPID_API_HOST +'/v1/stats?country=' + country;
+    country = this.UpperTransform(country);
+    this.url = "https://covid-193.p.rapidapi.com/statistics?country=" + country;
     console.log(country);
     this.getResponse(this.url);
     this.showCountry = true;
@@ -83,30 +86,33 @@ export class AppComponent implements OnInit{
     this.http.get<Covid>(url, {
       headers: new HttpHeaders({ 
         'content-type': 'application/json; charset=utf-8',
-        'RapidAPIproject': process.env.API_PROJECT,
-        'X-RapidAPI-Host': process.env.RAPID_API_HOST,
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY
         // 'RapidAPIproject': 'default-application_4278873',
-        // 'X-RapidAPI-Host': 'covid-19-coronavirus-statistics.p.rapidapi.com'
-        // 'X-RapidAPI-Key' : '20ff524c52msh9b813b8d445a645p14a5bcjsnc51e6a48d647'
+        // 'X-RapidAPI-Host': 'covid-19-coronavirus-statistics.p.rapidapi.com',
+        'X-RapidAPI-Key' : '20ff524c52msh9b813b8d445a645p14a5bcjsnc51e6a48d647'
      })
     }).subscribe( posts => {
       console.log(posts);
-      if(posts.statusCode !== 200 || posts.message !== 'OK'){
-        this.error = posts.message;
+      if(!posts.results){
+        this.error = "No Data Found!";
       }else{
-        let responseData = posts.data.covid19Stats[0];
-        this.lastCheckedDate = this.getDate(posts.data.lastChecked);
-        this.fetchedProvince = responseData.province;
+        let responseData = posts.response[0];
+        this.lastUpdated = this.getDate(responseData.time);
         this.fetchedCountry = responseData.country;
-        this.lastUpdated = this.getDate(responseData.lastUpdate);
+        console.log(responseData);
 
         //displaying data
-        console.log(responseData.confirmed)
-        this.confirmed = responseData.confirmed;
-        this.deaths = responseData.deaths;
-        this.recovered = responseData.recovered;
+        this.newCases = responseData.cases.new;
+        this.active = responseData.cases.active;
+        this.critical = responseData.cases.critical;
+        this.recovered = responseData.cases.recovered;
+        this.total = responseData.cases.total;
+
+        this.newDeaths = responseData.deaths.new || 'null';
+        this.totalDeaths = responseData.deaths.total;
+
       }
+    }, error => {
+      this.error = error.message;
     } );
   }
 }
