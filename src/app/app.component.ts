@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Covid } from './covid.interface';
+import { Alpha2CodeService } from './alpha2code.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,8 @@ export class AppComponent implements OnInit{
   error: string;
   title = 'covid';
   url: string;
+
+  codeForFlag: string;
 
   //date
   hour: number;
@@ -36,7 +39,7 @@ export class AppComponent implements OnInit{
   newDeaths: string;
   totalDeaths: number;
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private alpha2CodeService: Alpha2CodeService){}
 
   ngOnInit(){
   }
@@ -45,7 +48,7 @@ export class AppComponent implements OnInit{
     lastChecked = new Date(lastChecked);
     // var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    console.log(lastChecked.getSeconds());
+    // console.log(lastChecked.getSeconds());
     // this.day = days[lastChecked.getDay()];
     this.date = lastChecked.getDate();
     this.month = months[lastChecked.getMonth() + 1];
@@ -77,7 +80,7 @@ export class AppComponent implements OnInit{
     // country.slice(1);
     country = this.UpperTransform(country);
     this.url = "https://covid-193.p.rapidapi.com/statistics?country=" + country;
-    console.log(country);
+    // console.log(country);
     this.getResponse(this.url);
     this.showCountry = true;
   }
@@ -91,14 +94,13 @@ export class AppComponent implements OnInit{
         'X-RapidAPI-Key' : '20ff524c52msh9b813b8d445a645p14a5bcjsnc51e6a48d647'
      })
     }).subscribe( posts => {
-      console.log(posts);
       if(!posts.results){
         this.error = "No Data Found!";
       }else{
         let responseData = posts.response[0];
         this.lastUpdated = this.getDate(responseData.time);
         this.fetchedCountry = responseData.country;
-        console.log(responseData);
+        // console.log(responseData);
 
         //displaying data
         this.newCases = responseData.cases.new;
@@ -110,6 +112,10 @@ export class AppComponent implements OnInit{
         this.newDeaths = responseData.deaths.new || 'null';
         this.totalDeaths = responseData.deaths.total;
 
+        this.alpha2CodeService.getAlpha2Code(this.fetchedCountry)
+          .subscribe( response => {
+            this.codeForFlag = response[0].alpha2Code;
+          });
       }
     }, error => {
       this.error = error.message;
