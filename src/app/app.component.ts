@@ -1,7 +1,9 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Covid } from './covid.interface';
-import { Alpha2CodeService } from './alpha2code.service';
+import { Alpha2CodeService } from './shared/alpha2code.service';
+import { DataTransferService } from './shared/data-transfer.service';
+import { CovidDataService } from './covidData.service';
 
 @Component({
   selector: 'app-root',
@@ -29,37 +31,30 @@ export class AppComponent implements OnInit{
   year: number;
 
   //recived data
-  newCases: string;
   active: number;
-  critical: number;
-  deaths: number;
   recovered: number;
   total: number;
 
-  newDeaths: string;
-  totalDeaths: number;
+  death: number;
 
-  constructor(private http: HttpClient, private alpha2CodeService: Alpha2CodeService){}
+  constructor(private covidDataService: CovidDataService,
+              private dataTransferService: DataTransferService){}
 
   ngOnInit(){
+    this.getResponse();
   }
 
   getDate(lastChecked){
     lastChecked = new Date(lastChecked);
-    // var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    // console.log(lastChecked.getSeconds());
-    // this.day = days[lastChecked.getDay()];
     this.date = lastChecked.getDate();
-    this.month = months[lastChecked.getMonth() + 1];
+    this.month = months[lastChecked.getMonth()];
     this.year = lastChecked.getFullYear();
     this.hour = lastChecked.getHours();
     this.minute = lastChecked.getMinutes();
     this.second = lastChecked.getSeconds();
 
     return this.date + ' ' + this.month + ',' + this.year + ' | ' + this.hour + ':' + this.minute + ':' + this.second;
-    // this.lastCheckedDate = this.date + ' ' + this.month + ',' + this.year + ' | ' + this.hour + ':' + this.minute + ':' + this.second;
-    // console.log(this.lastCheckedDate);
   }
 
   UpperTransform(str) {
@@ -74,26 +69,18 @@ export class AppComponent implements OnInit{
  }
 
   onSubmitCountry(country: string){
+
+    this.dataTransferService.setCountry(country);
+
     this.showCountry = false;
     this.error = '';
-    // country = country[0].toUpperCase() +  
-    // country.slice(1);
-    country = this.UpperTransform(country);
-    this.url = "https://covid-193.p.rapidapi.com/statistics?country=" + country;
-    // console.log(country);
-    this.getResponse(this.url);
+    this.getResponse();
     this.showCountry = true;
   }
 
-  getResponse(url: string){
-    this.http.get<Covid>(url, {
-      headers: new HttpHeaders({ 
-        'content-type': 'application/json; charset=utf-8',
-        // 'RapidAPIproject': 'default-application_4278873',
-        // 'X-RapidAPI-Host': 'covid-19-coronavirus-statistics.p.rapidapi.com',
-        'X-RapidAPI-Key' : '20ff524c52msh9b813b8d445a645p14a5bcjsnc51e6a48d647'
-     })
-    }).subscribe( posts => {
+  getResponse(){
+    this.covidDataService.getCovidData()
+    .subscribe( posts => {
       if(!posts.results){
         this.error = "No Data Found!";
       }else{
@@ -103,19 +90,15 @@ export class AppComponent implements OnInit{
         // console.log(responseData);
 
         //displaying data
-        this.newCases = responseData.cases.new;
         this.active = responseData.cases.active;
-        this.critical = responseData.cases.critical;
         this.recovered = responseData.cases.recovered;
         this.total = responseData.cases.total;
 
-        this.newDeaths = responseData.deaths.new || 'null';
-        this.totalDeaths = responseData.deaths.total;
+        this.death = responseData.deaths.total;
 
-        this.alpha2CodeService.getAlpha2Code(this.fetchedCountry)
-          .subscribe( response => {
-            this.codeForFlag = response[0].alpha2Code;
-          });
+        this.codeForFlag = this.dataTransferService.getCountryCode();
+        // this.codeForFlag = this.alpha2CodeService.getAlpha2Code(this.fetchedCountry)
+        // console.log(this.alpha2CodeService.getCode());
       }
     }, error => {
       this.error = error.message;

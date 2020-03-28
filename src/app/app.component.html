@@ -1,11 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h3>COVID-19</h3>
-      <hr>
-      <div>
-        <p>Last Update: {{ lastUpdated }}</p>
-      </div>
+      <app-header></app-header>
       <hr>
       <label for="country">Country</label>
       <div class="form-row">
@@ -15,6 +11,7 @@
         <br>
         <button class="btn btn-primary col-auto pl-3 pr-3" (click) = "onSubmitCountry(country.value)">Enter</button>
       </div>
+      <app-input-data></app-input-data>
     </div>
   </div>
   <hr>
@@ -22,22 +19,39 @@
     <div class="col-sm-12">
       <h3 class="text text-muted">Country</h3>
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <br>
           <strong class="h4">{{ fetchedProvince }}<span *ngIf = "fetchedProvince">,</span> {{ fetchedCountry }} <img src="https://www.countryflags.io/{{ codeForFlag }}/shiny/64.png"></strong>
           <p>Last Updated: {{lastUpdated}}</p>
-          <app-map></app-map>
+          <hr>
         </div>
-        <div class="col-sm-6">
-          <h5>Cases</h5>
-          <p>New Cases: {{ newCases }}</p>
-          <p>Active: {{ active }}</p>
-          <p>Critical: {{ critical }}</p>
-          <p>Recovered: {{ recovered }}</p>
-          <p>Total: {{ total }}</p>
-          <h5>Deaths</h5>
-          <p>New Deaths: {{ newDeaths }}</p>
-          <p>Total Deaths: {{ totalDeaths }}</p>
+        <div class="col-sm-12">
+          <div class="data row">
+            <div class="card text-white bg-warning ml-3 mr-3 col-sm-2 text-center" style="max-width: 18rem;">
+              <div class="card-header">Active</div>
+              <div class="card-body">
+                <h5 class="card-text">{{ active }}</h5>
+              </div>
+            </div>
+            <div class="card text-white bg-success ml-3 mr-3 col-sm-2 text-center" style="max-width: 18rem;">
+              <div class="card-header">Recovered</div>
+              <div class="card-body">
+                <h5 class="card-text">{{ recovered }}</h5>
+              </div>
+            </div>
+            <div class="card text-white bg-danger ml-3 mr-3 col-sm-2 text-center" style="max-width: 18rem;">
+              <div class="card-header">Deaths</div>
+              <div class="card-body">
+                <h5 class="card-text">{{ death }}</h5>
+              </div>
+            </div>
+            <div class="card text-white bg-primary ml-3 mr-3 col-sm-2 text-center" style="max-width: 18rem;">
+              <div class="card-header">Total</div>
+              <div class="card-body">
+                <h5 class="card-text">{{ total }}</h5>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
