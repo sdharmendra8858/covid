@@ -15,8 +15,4 @@ export class DataTransferService {
     getCountry(){
         return this.country;
     }
-
-    getCountryCode(){
-        return this.alpa2CodeService.getAlpha2Code(this.country);
-    }
 }

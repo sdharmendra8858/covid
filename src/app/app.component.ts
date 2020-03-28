@@ -38,7 +38,8 @@ export class AppComponent implements OnInit{
   death: number;
 
   constructor(private covidDataService: CovidDataService,
-              private dataTransferService: DataTransferService){}
+              private dataTransferService: DataTransferService,
+              private alpha2CodeService: Alpha2CodeService){}
 
   ngOnInit(){
     this.getResponse();
@@ -96,9 +97,12 @@ export class AppComponent implements OnInit{
 
         this.death = responseData.deaths.total;
 
-        this.codeForFlag = this.dataTransferService.getCountryCode();
-        // this.codeForFlag = this.alpha2CodeService.getAlpha2Code(this.fetchedCountry)
-        // console.log(this.alpha2CodeService.getCode());
+        this.alpha2CodeService.getAlpha2Code(this.fetchedCountry)
+          .subscribe(response => {
+            this.codeForFlag = response[0].alpha2Code;
+          }, error => {
+            this.codeForFlag = this.fetchedCountry.slice(0,2);
+          });
       }
     }, error => {
       this.error = error.message;

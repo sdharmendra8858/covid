@@ -21,31 +21,32 @@
       <div class="row">
         <div class="col-sm-12">
           <br>
-          <strong class="h4">{{ fetchedProvince }}<span *ngIf = "fetchedProvince">,</span> {{ fetchedCountry }} <img src="https://www.countryflags.io/{{ codeForFlag }}/shiny/64.png"></strong>
+          <strong class="h4">{{ fetchedCountry }}<span *ngIf = "codeForFlag"><img src="https://www.countryflags.io/{{ codeForFlag }}/shiny/64.png"></span></strong>
           <p>Last Updated: {{lastUpdated}}</p>
+          <!-- <app-map></app-map> -->
           <hr>
         </div>
         <div class="col-sm-12">
           <div class="data row">
-            <div class="card text-white bg-warning ml-3 mr-3 col-sm-2 text-center" style="max-width: 18rem;">
+            <div class="card text-white bg-warning m-3 col-md-2 text-center" style="max-width: 18rem;">
               <div class="card-header">Active</div>
               <div class="card-body">
                 <h5 class="card-text">{{ active }}</h5>
               </div>
             </div>
-            <div class="card text-white bg-success ml-3 mr-3 col-sm-2 text-center" style="max-width: 18rem;">
+            <div class="card text-white bg-success m-3 col-md-2 text-center" style="max-width: 18rem;">
               <div class="card-header">Recovered</div>
               <div class="card-body">
                 <h5 class="card-text">{{ recovered }}</h5>
               </div>
             </div>
-            <div class="card text-white bg-danger ml-3 mr-3 col-sm-2 text-center" style="max-width: 18rem;">
+            <div class="card text-white bg-danger m-3 col-md-2 text-center" style="max-width: 18rem;">
               <div class="card-header">Deaths</div>
               <div class="card-body">
                 <h5 class="card-text">{{ death }}</h5>
               </div>
             </div>
-            <div class="card text-white bg-primary ml-3 mr-3 col-sm-2 text-center" style="max-width: 18rem;">
+            <div class="card text-white bg-primary m-3 col-md-2 text-center" style="max-width: 18rem;">
               <div class="card-header">Total</div>
               <div class="card-body">
                 <h5 class="card-text">{{ total }}</h5>
