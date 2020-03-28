@@ -20,6 +20,8 @@ export class AppComponent implements OnInit{
   title = 'covid';
   url: string;
 
+  historicaldata: boolean = false;
+
   codeForFlag: string;
 
   //date
@@ -72,7 +74,7 @@ export class AppComponent implements OnInit{
   onSubmitCountry(country: string){
 
     this.dataTransferService.setCountry(country);
-
+    this.historicaldata = false;
     this.showCountry = false;
     this.error = '';
     this.getResponse();
@@ -96,16 +98,24 @@ export class AppComponent implements OnInit{
         this.total = responseData.cases.total;
 
         this.death = responseData.deaths.total;
-
-        this.alpha2CodeService.getAlpha2Code(this.fetchedCountry)
-          .subscribe(response => {
-            this.codeForFlag = response[0].alpha2Code;
-          }, error => {
-            this.codeForFlag = this.fetchedCountry.slice(0,2);
-          });
+        if((this.fetchedCountry).toLowerCase() !== 'all'){
+          this.alpha2CodeService.getAlpha2Code(this.fetchedCountry)
+            .subscribe(response => {
+              this.codeForFlag = response[0].alpha2Code;
+            }, error => {
+              this.codeForFlag = this.fetchedCountry.slice(0,2);
+            });
+        }else{
+          this.fetchedCountry = "World Data";
+          this.codeForFlag = "";
+        }
       }
     }, error => {
       this.error = error.message;
     } );
+  }
+
+  getHistoricalData(){
+    this.historicaldata = this.historicaldata ? false : true;
   }
 }

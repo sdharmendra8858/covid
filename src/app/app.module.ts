@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { CovidDataService } from './covidData.service';
 import { InputDataComponent } from './input-data/input-data.component';
+import { HistoricalLineComponent } from './historical-line/historical-line.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { InputDataComponent } from './input-data/input-data.component';
     MapComponent,
     HeaderComponent,
     PieChartComponent,
-    InputDataComponent
+    InputDataComponent,
+    HistoricalLineComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-sm-12">
       <app-header></app-header>
+      <p>Last Updated: {{lastUpdated}}</p>
       <hr>
       <label for="country">Country</label>
       <div class="form-row">
@@ -11,19 +12,20 @@
         <br>
         <button class="btn btn-primary col-auto pl-3 pr-3" (click) = "onSubmitCountry(country.value)">Enter</button>
       </div>
+      <p class="text-muted ">"All" for world data.</p>
       <app-input-data></app-input-data>
     </div>
   </div>
   <hr>
   <div class="row" *ngIf = "showCountry && !error">
     <div class="col-sm-12">
-      <h3 class="text text-muted">Country</h3>
+      <h3 class="text text-muted" *ngIf = "codeForFlag">Country</h3>
       <div class="row">
         <div class="col-sm-12">
           <br>
           <strong class="h4">{{ fetchedCountry }}<span *ngIf = "codeForFlag"><img src="https://www.countryflags.io/{{ codeForFlag }}/shiny/64.png"></span></strong>
-          <p>Last Updated: {{lastUpdated}}</p>
           <!-- <app-map></app-map> -->
+          <button class="btn btn-info ml-5" (click) = "getHistoricalData()">Get Historical Data</button>
           <hr>
         </div>
         <div class="col-sm-12">
@@ -57,6 +59,7 @@
       </div>
     </div>
   </div>
+  <app-historical-line *ngIf = "historicaldata"></app-historical-line>
   <div class="row" *ngIf= "error && showCountry">
     <div class="col-sm-12">
       <div class="alert alert-danger">
