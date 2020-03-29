@@ -1,4 +1,4 @@
-import { Component, OnChanges, AfterContentInit, DoCheck, AfterContentChecked, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 
@@ -9,7 +9,7 @@ import { CovidDataService } from '../covidData.service';
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.css']
 })
-export class PieChartComponent implements OnInit, OnChanges{
+export class PieChartComponent implements OnInit{
   death: number;
   critical: number;
   recovered: number;
@@ -19,7 +19,7 @@ export class PieChartComponent implements OnInit, OnChanges{
   constructor( private covidDataService: CovidDataService) {}
 
   ngOnInit(){
-    this.subscribedData =  this.covidDataService.getCovidData()
+    this.covidDataService.getCovidData()
       .subscribe(data => {
         this.active = data.response[0].cases.active;
         this.critical = data.response[0].cases.critical;
@@ -27,8 +27,9 @@ export class PieChartComponent implements OnInit, OnChanges{
         this.death = data.response[0].deaths.total;
 
         console.log(this.active);
+        let chart;
 
-        let chart = am4core.create("chartdiv", am4charts.PieChart);
+        chart = am4core.create("chartdiv", am4charts.PieChart);
     
         chart.data = [{
           "label": "Active",
@@ -60,10 +61,6 @@ export class PieChartComponent implements OnInit, OnChanges{
         pieSeries.ticks.template.disabled = true;
         pieSeries.slices.template.propertyFields.fill = "color";
       });
-  }
-
-  ngOnChanges(){
-    this.subscribedData.unsubscribe();
   }
 
 }

@@ -42,9 +42,11 @@ export class HistoricalLineComponent implements OnInit {
           series.name = "Cases";
           series.strokeWidth = 2;
           series.bullets.push(new am4charts.CircleBullet());
+          series.tooltipText = "{name}: [bold]{valueY}[/]";
           series.connect = false;
           series.dataFields.valueY = "Cases";
           series.dataFields.categoryX = "Date"; 
+
       })
   }
 

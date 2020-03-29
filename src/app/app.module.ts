@@ -11,6 +11,8 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { CovidDataService } from './covidData.service';
 import { InputDataComponent } from './input-data/input-data.component';
 import { HistoricalLineComponent } from './historical-line/historical-line.component';
+import { NewsLetterComponent } from './news-letter/news-letter.component';
+import { NewsLetterItemComponent } from './news-letter/news-letter-item/news-letter-item.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { HistoricalLineComponent } from './historical-line/historical-line.compo
     HeaderComponent,
     PieChartComponent,
     InputDataComponent,
-    HistoricalLineComponent
+    HistoricalLineComponent,
+    NewsLetterComponent,
+    NewsLetterItemComponent
   ],
   imports: [
     BrowserModule,

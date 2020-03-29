@@ -1,0 +1,15 @@
+<a 
+    class="list-group-item clearfix" 
+    style="cursor: pointer;" 
+    [href] = "newsItem.url"
+    >
+    <div class="row">
+        <span class="col-sm-2">
+            <img [src] = "newsItem.urlToImage" class="img-responsive rounded" style="max-height: 50px; max-width: 50px;">
+        </span>
+        <span class="col-sm-10">
+            <p class="list-group-item-heading">{{ newsItem.title }}</p>
+        </span>
+    </div>
+    
+</a>

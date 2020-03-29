@@ -1,6 +1,4 @@
 import { Component, OnInit} from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Covid } from './covid.interface';
 import { Alpha2CodeService } from './shared/alpha2code.service';
 import { DataTransferService } from './shared/data-transfer.service';
 import { CovidDataService } from './covidData.service';
@@ -13,7 +11,7 @@ import { CovidDataService } from './covidData.service';
 export class AppComponent implements OnInit{
 
   showCountry = false;
-  lastUpdated: string = "Loading...";
+  lastUpdated: string = "";
   fetchedCountry: string;
   fetchedProvince: string;
   error: string;
@@ -78,6 +76,7 @@ export class AppComponent implements OnInit{
     this.showCountry = false;
     this.error = '';
     this.getResponse();
+    this.lastUpdated = "Loading...";
     this.showCountry = true;
   }
 
