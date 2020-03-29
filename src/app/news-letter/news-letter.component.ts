@@ -9,7 +9,7 @@ import { RootObject, Article } from './new-letter.interface';
   styleUrls: ['./news-letter.component.css']
 })
 export class NewsLetterComponent implements OnInit {
-  url: string = "http://newsapi.org/v2/everything?q=covid&sortBy=publishedAt&language=en&apiKey=496adf61462b409793a6c6e1b7d4370a";
+  url: string = "https://newsapi.org/v2/everything?q=covid&sortBy=publishedAt&language=en&apiKey=496adf61462b409793a6c6e1b7d4370a";
   newsData: Article[];
 
   constructor(private http: HttpClient) { }
